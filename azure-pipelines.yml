@@ -29,7 +29,7 @@ stages:
 
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'YOUR_AZURE_SERVICE_CONNECTION_NAME'
+        azureSubscription: 'rkterraformconnection'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
@@ -46,15 +46,12 @@ stages:
 
         failOnStandardError: true
         workingDirectory: '$(Build.SourcesDirectory)'
-      env:
-        ARM_CLIENT_ID: $(servicePrincipalId)
-        ARM_CLIENT_SECRET: $(servicePrincipalKey)
-        ARM_SUBSCRIPTION_ID: $(subscriptionId)
-        ARM_TENANT_ID: $(tenantId)
+#      env:
+#       ARM_CLIENT_ID: $(servicePrincipalId)
+#        ARM_CLIENT_SECRET: $(servicePrincipalKey)
+#        ARM_SUBSCRIPTION_ID: $(subscriptionId)
+#       ARM_TENANT_ID: $(tenantId)
 
 variables:
   terraformVersion: '1.0.11'
-  servicePrincipalId: 'YOUR_SERVICE_PRINCIPAL_ID'
-  servicePrincipalKey: 'YOUR_SERVICE_PRINCIPAL_KEY'
-  subscriptionId: '8a6fe65c-2acd-458b-bd7b-1b3ec0f862e1'
-  tenantId: 'c0ab1c79-e7de-4e64-9c88-ad950a16619a'
+
