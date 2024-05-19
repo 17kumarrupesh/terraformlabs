@@ -1,0 +1,60 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Deploy
+  displayName: "Deploy Infrastructure"
+  jobs:
+  - job: Terraform
+    displayName: "Run Terraform"
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '5.x'
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - checkout: self
+      fetchDepth: 1
+
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'YOUR_AZURE_SERVICE_CONNECTION_NAME'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          # Install Terraform
+          curl -sSL https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip -o terraform.zip
+          unzip terraform.zip
+          sudo mv terraform /usr/local/bin/
+          
+          # Initialize Terraform
+          terraform init
+
+          # Apply Terraform configuration
+          terraform apply -auto-approve
+
+        failOnStandardError: true
+        workingDirectory: '$(Build.SourcesDirectory)'
+      env:
+        ARM_CLIENT_ID: $(servicePrincipalId)
+        ARM_CLIENT_SECRET: $(servicePrincipalKey)
+        ARM_SUBSCRIPTION_ID: $(subscriptionId)
+        ARM_TENANT_ID: $(tenantId)
+
+variables:
+  terraformVersion: '1.0.11'
+  servicePrincipalId: 'YOUR_SERVICE_PRINCIPAL_ID'
+  servicePrincipalKey: 'YOUR_SERVICE_PRINCIPAL_KEY'
+  subscriptionId: '8a6fe65c-2acd-458b-bd7b-1b3ec0f862e1'
+  tenantId: 'c0ab1c79-e7de-4e64-9c88-ad950a16619a'
