@@ -33,6 +33,25 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
+          providers=(
+            "Microsoft.Storage"
+            "Microsoft.Network"
+            "Microsoft.Compute"
+            "Microsoft.ContainerService"
+            # Add other providers as needed
+          )
+          
+          for provider in "${providers[@]}"; do
+            echo "Registering $provider..."
+            az provider register --namespace $provider
+            az provider show --namespace $provider --query "registrationState" | grep -q Registered
+            while [ $? -ne 0 ]; do
+              echo "Waiting for $provider to be registered..."
+              sleep 10
+              az provider show --namespace $provider --query "registrationState" | grep -q Registered
+            done
+          done
+
           # Install Terraform
           curl -sSL https://releases.hashicorp.com/terraform/$(terraformVersion)/terraform_$(terraformVersion)_linux_amd64.zip -o terraform.zip
           unzip terraform.zip
