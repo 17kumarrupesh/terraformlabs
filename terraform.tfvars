@@ -1,6 +1,6 @@
-resource_group_name    = "example-resources"
-location               = "East US"
-storage_account_name   = "examplestorageacct"
+resource_group_name    = "terraformtest"
+location               = "Central India"
+storage_account_name   = "rktfmtest"
 account_tier           = "Standard"
 account_replication_type = "LRS"
 tags = {
