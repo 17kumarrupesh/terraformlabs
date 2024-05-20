@@ -1,4 +1,4 @@
-resource_group_name    = "terraformtest"
+resource_group_name    = "terraformtest1"
 location               = "Central India"
 storage_account_name   = "rktfmtest"
 account_tier           = "Standard"
