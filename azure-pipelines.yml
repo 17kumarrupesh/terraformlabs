@@ -61,7 +61,7 @@ stages:
           terraform init
 
           #Import the RG
-          terraform import azurerm_resource_group.rg /subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)
+          #terraform import azurerm_resource_group.rg /subscriptions/$(subscriptionId)/resourceGroups/$(resourceGroupName)
 
           # Apply Terraform configuration
           terraform apply -auto-approve
@@ -76,6 +76,6 @@ stages:
 
 variables:
   terraformVersion: '1.0.11'
-  subscriptionId: '8a6fe65c-2acd-458b-bd7b-1b3ec0f862e1'
-  resourceGroupName: 'terraformtest'
+  #subscriptionId: '8a6fe65c-2acd-458b-bd7b-1b3ec0f862e1'
+  #resourceGroupName: 'terraformtest'
 
