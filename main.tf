@@ -11,8 +11,8 @@ resource "azurerm_resource_group" "existingrg" {
 # Define the storage account to be created in the existing resource group
 resource "azurerm_storage_account" "example" {
   name                     = var.storage_account_name
-  resource_group_name      = azurerm_resource_group.existing.name
-  location                 = azurerm_resource_group.existing.location
+  resource_group_name      = azurerm_resource_group.existingrg.name
+  location                 = azurerm_resource_group.existingrg.location
   account_tier             = var.account_tier
   account_replication_type = var.account_replication_type
 
